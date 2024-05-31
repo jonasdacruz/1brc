@@ -33,7 +33,7 @@ func ProcessFile(fp string) {
 	slices := calcFileSlices(f, int(fs), 10)
 
 	_ = slices
-	chsta := make(chan map[string]station)
+	chsta := make(chan map[string]*station, len(slices))
 
 	for _, s := range slices {
 		go processSlice(f, s, chsta)
@@ -97,7 +97,7 @@ func calcFileSlices(f *os.File, fs int, num int) []slice {
 	return slices
 }
 
-func processSlice(f *os.File, s slice, chsta chan<- map[string]station) {
+func processSlice(f *os.File, s slice, chsta chan<- map[string]*station) {
 
 	// load file slice in memory
 	slice := make([]byte, s.end-s.start)
@@ -107,7 +107,7 @@ func processSlice(f *os.File, s slice, chsta chan<- map[string]station) {
 		return
 	}
 
-	stations := make(map[string]station)
+	stations := make(map[string]*station)
 
 	var el int
 	lines := 0
@@ -124,19 +124,19 @@ func processSlice(f *os.File, s slice, chsta chan<- map[string]station) {
 	chsta <- stations
 }
 
-func processLine(stations map[string]station, line []byte) map[string]station {
+func processLine(stations map[string]*station, line []byte) map[string]*station {
 	b, e, _ := bytes.Cut(line, []byte{';'})
 
 	sn := string(b)
 	st, _ := strconv.ParseFloat(string(e), 64) // thanks to Alex
 
-	tmpStation := make(map[string]station)
-	tmpStation[sn] = station{min: st, max: st, sum: st, count: 1}
+	tmpStation := make(map[string]*station)
+	tmpStation[sn] = &station{min: st, max: st, sum: st, count: 1}
 
 	return mergeStations(stations, tmpStation)
 }
 
-func mergeStations(stations map[string]station, s map[string]station) map[string]station {
+func mergeStations(stations map[string]*station, s map[string]*station) map[string]*station {
 	for k, v := range s {
 		if st, ok := stations[k]; ok {
 			st.min = min(st.min, v.min)
@@ -150,8 +150,8 @@ func mergeStations(stations map[string]station, s map[string]station) map[string
 	return stations
 }
 
-func processStations(slices []slice, chsta <-chan map[string]station) {
-	stations := make(map[string]station)
+func processStations(slices []slice, chsta <-chan map[string]*station) {
+	stations := make(map[string]*station)
 
 	for i := 0; i < len(slices); i++ {
 		stations = mergeStations(stations, <-chsta)
