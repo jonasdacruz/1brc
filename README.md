@@ -22,7 +22,7 @@ It could be a good idea to generate a smaller one for testing, I didn't do it an
 
 ### The Problem
 
-Due to the really simple nature of the problem functianlly speaking, the only complexity here is the actual challenge about try to process as fast as possible.
+Due to the really simple nature of the problem functioanlly speaking, the only complexity here is the actual challenge about try to process as fast as possible.
 
 So, the most complicated thing to me is to try to keep the whole computer actually computing effectively as much as possible, and at the same time being careful with overlapping memory access.
 
