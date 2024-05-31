@@ -30,7 +30,7 @@ Last words, this is 100% concurrency problem, so after being able to use the who
 
 ### My first approach (2024-05-30)
 
-I alway start [drawing main ideas](<[https://](https://link.excalidraw.com/readonly/3Yp8PTdbYENO8o0pyTQQ?darkMode=true)>) to drive the coding work, I usualy don't code anything until I have a clear idea of what I want to do.
+I alway start [drawing main ideas](https://](https://link.excalidraw.com/readonly/3Yp8PTdbYENO8o0pyTQQ?darkMode=true) to drive the coding work, I usualy don't code anything until I have a clear idea of what I want to do.
 
 Then my second hobby is to break down the problem in smaller problems using as much sub-routines as possible in order to isolate responsibilities and problems.
 
